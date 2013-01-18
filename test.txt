@@ -1,2 +1,8 @@
 ODGOVORI:
-278. 
+278. active directory users and computers - new- organizational unit - ukucamo ime organizacione jedinice - ok . 
+Organizaciona jedinica je deo aktivnog direktorijuma gde mozete smestiti korisnike, grupe i druge organizacione jedinice.
+Mozete kreirati organizacionu jedinicu koja ce imitirati strukturu u vasoj organizaciji.
+
+279. active directory schema
+
+280.
