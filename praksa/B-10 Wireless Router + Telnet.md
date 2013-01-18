@@ -66,3 +66,13 @@ Napomena: u ovom scenariju postoje 2 racunara koji ostvaruju telnet client/serve
 10. Pokretanjem tlntadmn proveriti da li je telnet server pokrenut (u logu koji izbaci treba da pise running)
 
 11. Sa klienta treba probati konekciju telnet <adresa internet porta rutera> (telnet 192.168.253.33). Koristiti korisnicko ime i lozinku korsnika kome je omogucen telnet pristup.
+
+SNIMANJE KONFIGURACIJE
+======================
+1. Otvoriti Administration karticu na ruteru, podkartica Config Management
+
+2. Pritiskom na backup, on ce ponuditi download fajla pod odredjenim imenom.
+
+3. Za povratak konfiguracija ovaj fajl se moze odabrati pomocu Choose File
+
+4. Pritiskom na Restore, snimljene konfiguracije se vracaju na ruter.
