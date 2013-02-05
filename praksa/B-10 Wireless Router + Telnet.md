@@ -35,8 +35,7 @@ WIRELESS
 
 8. Tip zastite treba biti WEP
 
-9. Passphrase treba biti konfigurisan prema postavci zadatka, a potom treba generisati kljuc (klikom na generate).
-	NAPOMENA: Pri konektovanju se koristi kljuc koji je odabran kao Default Transmit Key (u sustini se ne koristi sifra, vec jedan od onih generisanih kljuceva)
+9. Sifra se upisuje u polje Key 1 i ono se bira u default key
 
 10. Ovde je gotovo podesavanje wireless-a. Treba snimiti, i proveriti da li je wireless funkcionalan.
 

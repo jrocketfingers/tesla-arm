@@ -5,4 +5,5 @@ Mozete kreirati organizacionu jedinicu koja ce imitirati strukturu u vasoj organ
 
 279. active directory schema
 
-280.
+<3
+
