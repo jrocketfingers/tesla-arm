@@ -1,0 +1,89 @@
+A1-1 Instalacija Linux operativnog sistema
+Hard disk računara: 30 GB
+RAM: 512MB
+
+Pre pokretanja virtualne mašine treba pored prvog mrežnog interfejsa(Internal Network) omogućiti i drugi:
+Desni klik na virtualnu mašinu>>settings>>network>>Adapter 2>>cekirati Enable Network Adapter>>u padajucem meniju izabrati Internal Network>>OK
+Pokrenuti masinu
+Podefault-u je odabran engleski--Enter
+F6, izabrati Expert mode, pa započeti instalaciju.
+
+Choose language>>enter:Slede opcije kojima se bira jezik, vremenska zona itd., u našem slučaju za vremensku zonu birano Srbiju(jer je to najpreciznje-u zadatku pise Beograd) i jezik Engleski(US), ostalo mozete slobodno odabrati sve sto je obelezeno po default-u.
+
+Configure the keyboard>>enter:Detect the keyboard layout-NO,Enter koliko puta treba(odabrati sve po default-u) dok se ponovo ne pojavi glavni meni.
+Detect and mount CD-ROM>>enter: Ponovo Enter koliko puta treba.(odabrati sve po default-u)
+Load debconf preconfiguration>>enter:
+Load installer components from CD>>enter:
+
+Posle ovog koraka dodaju se jos neke stavke u glavnom meniju.
+
+Detect network hardware>>enter:
+
+Configure the network>>enter: Auto-configure networking?-NO;IP adresa:172.16.1.2>enter, maska podmreze:255.255.255.0>enter, podrazumevani mrezni prolaz:172.16.1.1>enter, Name server addresses:obrisati ako nesto pise>enter,Is this information correct-Yes, Hostname:lab55, Domain name:(nije dato u vezbi pa sam stavio:)skola.com.
+
+Set up users and password>>enter:Enable shadow passwords?-Yes, Allow login as root?-Yes, Root password:(npr.)!passw0rd,Re-enter password to verify...,Create a normal user account now?-Yes, Full name for the new user: Laza Lazic, Username: llaza, Choose the password for the new user..., re-enter password to verify..., Encrypt your home directory?(ne trazi se u zadatku:)-NO.
+
+Configure the clock>>enter:Set the clock using NTP? Yes,Enter,Enter.
+
+Detect disc>>enter:
+
+Partition disks*>>enter:Partitioning method: Manual>>enter, izabrati hard disk(pocinje sa SCSI1...)>>enter, Create new empty partition...?-Yes, Partition table type:(po default-u)msdos>>enter, 
+Izabrati FREE SPACE>>enter, How to use this free space: Create a new partition>>enter,New partition size:100MB, Type for the new partition:Primary, Location for the new partition:Beginning,  Partition settings: Use as Ext4( za sve particije osim swap-a koristimo Ext4), Mount point: /boot, Bootable flag:on, Done setting up the partition.
+
+Izabrati Configure the Logical Volume Manager>>enter
+Write the changes to disks and configure LVM?- Yes
+Create volume group>>enter, Volume group name: system, 
+Oznaciti vecu particiju sa Space-om pa enter,
+Write these changes to disks and configure LVM?-Yes,
+LVM configuration action: Create logical volume>>enter, Enter, Logical volume name:home, Logical volume size:10000MB
+Ponovo: Create logical volume>>enter, Enter, Logical volume name:srv, Logical volume size:4GB
+Create logical volume>>enter, Enter, Logical volume name:usr, Logical volume size:6GB
+Create logical volume>>enter, Enter, Logical volume name:swap, Logical volume size:512MB
+Create logical volume>>enter, Enter, Logical volume name:root, Logical volume size:sve ostalo
+Finish
+
+Sada ulazimo na svaku particiju pojedinacno:
+home--Partition Settings: Use as:Ext4(svuda je Ext4 osim u swap, gde je swap area), Mount point:/home,Done setting up the partition.
+root--Partition Settings: Use as:Ext4, Mount point:/ ,Done setting up the partition.
+srv--Partition Settings: Use as:Ext4, Mount point:/srv , Done...
+root--Partition Settings: Use as:Ext4, Mount point:/ , Done...
+swap--Partition Settings: Use as:swap area, Done...
+usr--Partition Settings: Use as:Ext4, Mount point:/usr ,Done
+
+Finish the partitioning and write changes to disk>>enter
+
+
+Ponovo smo u glavnom meniju
+
+Install the base system>generic>>enter
+Drivers to include in the initrd: targeted:only include drivers needed for this system>>enter
+
+U glavnom meniju izabrati Install the GRUB boot loader on the hard disk>>enter
+Install the GRUB boot loader to the master boot record?-Yes
+Finish the installation>>enter
+Yes>>enter, Enter(reboot)
+
+Kada se sistem pokrene trazice korisnicko ime i lozinku...
+
+Kucamo ifconfig, izlistavaju se eth0 i loob back interfejs. Treba jos podesiti eth1(drugi mrezni interfejs.
+Kucamo ifconfig -a  da proverimo da li je tu, tu je, ali nisu mu podesene adrese.
+Da bi dobili administratorske privilegije kucamo "su" bez navodnika, odkucamo password kad nam trazi.
+U gornjem meniju virtualne masine u Devices dodamo instalacioni disk Ubuntu servera pa onda kucamo komandu
+apt-get install nano
+da bi instalirali nano(nisam bas siguran sta je to, pomocu njega zadajemo komande...)
+i onda kucamo 
+nano /etc/network/interfaces
+
+i dopisemo podatke za eth1 po ugledu na eth0 
+"auto eth1
+iface eth1 inet static
+  address 192.168.1.1
+	netmask 255.255.255.0"
+Komandom Ctrl+x izlazimo, kada nas pita Save modified buffer? ukucamo Y, a kada nas pita za ime samo prihvatimo default pritiskom na enter
+
+Tada koristimo sledecu komandu  /etc/init.d/networking restart
+ posle restarta ukucamo ifconfig i trebalo bi da nam se uz eth0 i lo prikaze i eth1 interfejs(podesen).
+
+
+*Mislim da je jedina stavka koja nije obuhvacena :
+Партиција на коју ће се смештати привремене датотеке не треба да буде већа од 350МВ .
