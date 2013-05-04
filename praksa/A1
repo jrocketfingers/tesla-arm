@@ -1,6 +1,8 @@
-A1-1 Instalacija Linux(server) operativnog sistema
+A1-1 Instalacija Linux operativnog sistema
 Hard disk računara: 30 GB
 RAM: 512MB
+
+Link za skidanje instalacije: http://www.ubuntu.com/download/server
 
 Pre pokretanja virtualne mašine treba pored prvog mrežnog interfejsa(Internal Network) omogućiti i drugi:
 Desni klik na virtualnu mašinu>>settings>>network>>Adapter 2>>cekirati Enable Network Adapter>>u padajucem meniju izabrati Internal Network>>OK
@@ -19,7 +21,7 @@ Posle ovog koraka dodaju se jos neke stavke u glavnom meniju.
 
 Detect network hardware>>enter:
 
-Configure the network>>enter: Auto-configure networking?-NO;IP adresa:172.16.1.2>enter, maska podmreze:255.255.255.0>enter, podrazumevani mrezni prolaz:172.16.1.1>enter, Name server addresses:obrisati ako nesto pise>enter,Is this information correct-Yes, Hostname:lab55, Domain name:(nije dato u vezbi pa sam stavio:)skola.com.
+Configure the network>>enter: Auto-configure networking?-NO;IP adresa:172.16.1.2>enter, maska podmreze:255.255.255.0>enter, podrazumevani mrezni prolaz:172.16.1.1>enter, Name server addresses:obrisati ako nesto pise>enter,Is this information correct-Yes, Hostname:lab55, Domain name:***(nije dato u vezbi  pa ne treba stavljati nista)
 
 Set up users and password>>enter:Enable shadow passwords?-Yes, Allow login as root?-Yes, Root password:(npr.)!passw0rd,Re-enter password to verify...,Create a normal user account now?-Yes, Full name for the new user: Laza Lazic, Username: llaza, Choose the password for the new user..., re-enter password to verify..., Encrypt your home directory?(ne trazi se u zadatku:)-NO.
 
@@ -28,7 +30,9 @@ Configure the clock>>enter:Set the clock using NTP? Yes,Enter,Enter.
 Detect disc>>enter:
 
 Partition disks*>>enter:Partitioning method: Manual>>enter, izabrati hard disk(pocinje sa SCSI1...)>>enter, Create new empty partition...?-Yes, Partition table type:(po default-u)msdos>>enter, 
-Izabrati FREE SPACE>>enter, How to use this free space: Create a new partition>>enter,New partition size:100MB, Type for the new partition:Primary, Location for the new partition:Beginning,  Partition settings: Use as Ext4( za sve particije osim swap-a koristimo Ext4), Mount point: /boot, Bootable flag:on, Done setting up the partition.
+Izabrati FREE SPACE>>enter, How to use this free space: Create a new partition>>enter,New partition size:100MB, Type for the new partition:Primary, Location for the new partition:Beginning,  Partition settings: ***Use as Ext2 (za sve particije osim swap-a i boot-a koristimo Ext4), Mount point: /boot, Bootable flag:on, Done setting up the partition.
+
+***Ovde od ostatka slobodnog prostora treba napraviti drugu primarnu particiju I podesiti Use as physical volume for LVM
 
 Izabrati Configure the Logical Volume Manager>>enter
 Write the changes to disks and configure LVM?- Yes
@@ -39,12 +43,14 @@ LVM configuration action: Create logical volume>>enter, Enter, Logical volume na
 Ponovo: Create logical volume>>enter, Enter, Logical volume name:srv, Logical volume size:4GB
 Create logical volume>>enter, Enter, Logical volume name:usr, Logical volume size:6GB
 Create logical volume>>enter, Enter, Logical volume name:swap, Logical volume size:512MB
+***Create logical volume>>enter, Enter, Logical volume name:tmp, Logical volume size:350MB
 Create logical volume>>enter, Enter, Logical volume name:root, Logical volume size:sve ostalo
 Finish
 
 Sada ulazimo na svaku particiju pojedinacno:
 home--Partition Settings: Use as:Ext4(svuda je Ext4 osim u swap, gde je swap area), Mount point:/home,Done setting up the partition.
 root--Partition Settings: Use as:Ext4, Mount point:/ ,Done setting up the partition.
+***tmp--Partition Settings: Use as:Ext4, Mount point:/tmp , Done...
 srv--Partition Settings: Use as:Ext4, Mount point:/srv , Done...
 root--Partition Settings: Use as:Ext4, Mount point:/ , Done...
 swap--Partition Settings: Use as:swap area, Done...
@@ -67,17 +73,17 @@ Kada se sistem pokrene trazice korisnicko ime i lozinku...
 
 Kucamo ifconfig, izlistavaju se eth0 i loob back interfejs. Treba jos podesiti eth1(drugi mrezni interfejs.
 Kucamo ifconfig -a  da proverimo da li je tu, tu je, ali nisu mu podesene adrese.
-Da bi dobili administratorske privilegije kucamo "su" bez navodnika, odkucamo password kad nam trazi.
+Da bi dobili administratorske privilegije kucamo "su" bez navodnika, otkucamo password kad nam trazi.
 U gornjem meniju virtualne masine u Devices dodamo instalacioni disk Ubuntu servera pa onda kucamo komandu
 apt-get install nano
-da bi instalirali nano(nisam bas siguran sta je to, pomocu njega zadajemo komande...)
+da bi instalirali nano(***to je tekst editor,  ako ne zelite da koristite vim.)
 i onda kucamo 
 nano /etc/network/interfaces
 
 i dopisemo podatke za eth1 po ugledu na eth0 
 "auto eth1
 iface eth1 inet static
-  address 192.168.1.1
+	address 192.168.1.1
 	netmask 255.255.255.0"
 Komandom Ctrl+x izlazimo, kada nas pita Save modified buffer? ukucamo Y, a kada nas pita za ime samo prihvatimo default pritiskom na enter
 
@@ -85,5 +91,4 @@ Tada koristimo sledecu komandu  /etc/init.d/networking restart
  posle restarta ukucamo ifconfig i trebalo bi da nam se uz eth0 i lo prikaze i eth1 interfejs(podesen).
 
 
-*Mislim da je jedina stavka koja nije obuhvacena :
-Партиција на коју ће се смештати привремене датотеке не треба да буде већа од 350МВ .
+
