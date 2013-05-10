@@ -1,0 +1,11 @@
+# Print server
+
+1. Add roles-Print and Document Services-next-next-
+(u zavisnosti od zadatka stiklirate Print server ili internet printing)-ako te pita kliknes add required services-
+next-next-install-close
+
+2. Udjite u print menagement-ports desni klik add port-standard tcp/ip-new port-next-printer name:adresa(192.168.1.101)
+-next-finish,dodati jos 1 port(ista procedura samo je naziv jednom mrezni a drugog glavni).
+3. Printers-add printer-add a new printer using existing port:-izabrati glavni-next-install a nerw driver,next-genericlevo i generic desno,next
+dodati mrezno ime(printer pool)-finish
+4. Desni klik na printer pool-ports-stiklirati glavni i mrezni-ok.
