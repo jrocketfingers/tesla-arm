@@ -1,0 +1,120 @@
+
+#profesorka jos treba da pregleda 
+
+Windows Deployment Service - mrezna instalacija
+
+Informacije:
+Server : 
+OS: Windows Server 2008 RAM: 512MB HDD1: 20GB; HDD2: 20GB - NE SMEJU BITI NA SATA CONTROLLERU!
+Client : 
+OS:Windows 7(64x)
+
+1)Ides New- 
+Name :windowsdeployment 
+Operating Sistem: Microsoft Windows
+Version:Windows 2008
+
+2)512 mb
+
+3)Kreiras Hard disk 20gb
+
+4)Settings-Storage( obrises ovaj jedan posto ne smeju da budu na SATA Controller-u)
+Dodas dva hard diska na IDE Controller-a.
+
+5)Ubacis disk en_windows_server_2008_datacente_enterpri...
+
+6)Pokreni instal.
+
+7)Tamo Odaberes Enterprise (Full Instal),Biras Custom,Hard 1
+
+8)Kad se pokrene server prvo password (!passw0rd) pa onda instaliras Guest Additions(Devices-Instal Guest Additions)
+
+8.5 URADI SNAPSHOT ( u virtualbox-u pod nazivom clean) kamerica u uglu
+
+9)Das mu ip : 192.168.1.1
+
+10)Dodas Shared Folder ( Devices-Shared Folder-mreznainstalacija pa izaberes NETFramework3_5)
+
+11)Moras da dozvolis u Control Panel-Network and Sharing Center-Network discovery - on)
+
+12)My Computer-Map Network Drive-Browse-NetFramework pa instaliras
+
+13)Izbaci share i obrisi onaj (disconnect) 
+
+14)Devices-CD-KB3AIK potom instal
+
+15)start-dcpromo-create new domain-skola.com-Win 2008- Gore u Devices ubaci server 2008
+
+16)ides na server add roles-dhcp-tamo samo validate-wins is not required
+add scope
+reminst
+starting ip ad : 192.168.1.10
+ending ip ad: 192.168.1.30
+subnet mask : 255.255.255.0
+default gate: 192.168.1.1
+potom next- i disable DHCPV6
+samo next do kraja
+
+17)Proveri dal se vidi drugi hard disk,posto se ne vidi ides na start-Server manager-Storage-Disk Managment-ok-Potom desni klik
+na drugi disk pa potom -New Volume-samo stikliraj Perfom a quick format
+
+18)start-server manager-add roles - windows deployment services
+19)ides u start-administative tools- windows deployment services-expandujes server pa desni klik na njega
+configure server-(stavi putanju drugog diska  windows deployment services u mom slucaju)- potom stikliras port 67 i Dhcp option 60
+obelezi respond to all- potom na kraju NE STIKLIRAJ ADD IMAGES
+
+20)ubaci win7 instal disk pa ides na windows deployment service potom za folder Boot images - Add Boot imagees (na cd- sources-boot.wim-Image ime :Windows 7 BootImage)
+potom Instal images - Add Instal imagees (Create new image name : Windows 7 ,na cd- sources-instal.wim - samo Windows 7 Proffesional - ostavi default name stiklirano
+
+
+21)Napravi folder Capture u X:\RemoteInstal\Images (X je tvoj drugi disk)
+
+22)U windows deployment services exportuj server pa u folderu Instal Images,desnoklik na Windows 7(ime koje si dao u predhodnom koraku image grupi) Export image pronadji folder koji si napravio i sacuvaj
+sliku pod imenom capture.wim
+
+23)Potom Start->All Programs->Microsoft AIK->Windows System Image Manager
+Create distribution share- napravi dis_share na drugom disku ( u prozorcetu new-folder) - otvori ga potom-
+
+24)Desno klik na windows image pa Select WIndows Image pa nadjite capture.wim (Na drugom disku pa vas folder remoteinstal-images-capture)
+25)File-New Answer File
+26)Iz Unattend.doc fajla konfigurises ,rastvoris u Windows Image-Componenets
+i kad nadjes komponentu ides desni klik Add setting to Pass 1 windowsPE
+i onda zavisno od podesavanja namestas.
+27)Kad zavrsis sa celim WDSUnattend.xml fajlom ides- gore papir preko njega je stiklirano(Validate Answer File)
+File-Save-nadjes folder WdsClienUnattend i tu sacuvas kao wdsunattend.xml
+28)Ides na Windows Deployment Services-otovoris server i onda desni klik (na WIN-RQPB...)potom
+Client i u x64 architecture - browse nadjes taj fajl  wdsunattend.xml
+29)sad pravis new answer fail, prvo ides close answer file pa pravis new answer file
+30)Microsoft-Windows-Shell-Setup
+NAPOMENA. prvo ides add setting to pass 4 specialize i obrises sve sto se nalazi u ovome 
+zato sto ti to ovde ne treba i odradis podesavanja.
+31)Microsoft-Windows-UnattendedJoin\Identification ISTO KAO I U KORAKU 30)
+
+32)Microsoft-Windows-International-Core napomena(imas dva takva radis
+na ovme sto nema WINPe njega ne mozesda add , a i onako radis oobeSystem) sad ides
+add setting to pass 7 oobeSystem .
+
+33)Microsoft-Windows-Shell-Setup - desni klik add setting to pass 7 oobeSystem
+i obrises sem ova dva sto ti trebaju : OOBE,UserAccounts
+
+napomena kod UserAccounts  neces modji da uradis podesavanje
+DomainAccounts i LocalAccounts moras da odes u Microsoft-Windows-Shell-Setup-User Accounts-
+za DomainAccounts udjes i otvoris zatim DomainAccountList i desni klik na DomainAccount add setting to pass 7..
+isto tako i za LocalaAccount-Passwords desni klik itd...
+
+34)potom sacuvas ImageUnattend.xml
+potom ides na windows deployment services otvoris server-pa install images
+-capture i u njemu desni klik na windows 7 Professional potom u njemu
+ides klik na kocku na Allow image to install in unattended mode,select file
+i tu nadjes imageunattend.xml
+
+35) potom gore desni kilk na WIN-RQPB(tj na server)-Directory Services
+i u Format das mu PC%02# , potom stikliras The following location , potom Browse i odaberes Computers
+
+36)to je to sad kreiras novu masinu das joj ime test - windows 7 64bit sve normalno dalje
+potom u settings , u IDE Controller hard disk stavis U IDE a ovaj obrises sto je u SATA cont.
+u system Boot Order - samo 1)Network 2)Hard Disk i to je to.
+
+37)Pokrenes i f12
+
+******bitno je da budu u istoj intnet mrezi..network adapters-name intnet :)
