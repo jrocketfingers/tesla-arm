@@ -1,4 +1,5 @@
 ARM-A3 Konfigurisanje peer to peer mreze
+========================================
 
 Dobijamo : 3 Windows 7 virtuelne masine (2 su ucenicke , 1 profesorska)
 Primer A3-1
