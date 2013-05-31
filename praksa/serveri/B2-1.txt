@@ -1,5 +1,4 @@
 B2-1 Podesavanje okruzenja za instalaciju I konfigurisanje web aplikacija
-=========================================================================
 
 1.Instaliramo WampServer u folder C:\wamp, I kad pita za default browser pristisnemo Open
 2.Php mail parameters : Next, Stikliramo Launch I na kraju Finish
