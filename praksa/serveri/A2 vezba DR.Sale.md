@@ -72,18 +72,25 @@ potom Instal images, desnoklik - Add Instal imagee (za Image Group Name staviti 
 Create distribution share- napravi dis_share na drugom disku ( u prozorcetu new-folder) - otvori ga potom-
 
 24)Desno klik na windows image pa Select WIndows Image pa nadjite capture.wim (Na drugom disku pa vas folder remoteinstal-images-capture)
+
 25)File-New Answer File
 http://www.2shared.com/document/uk74Qi-j/Unattend.html fajl Unattend.doc
+
 26)Iz Unattend.doc fajla konfigurises ,rastvoris u Windows Image-Componenets
 i kad nadjes komponentu ides desni klik Add setting to Pass 1 windowsPE
 i onda zavisno od podesavanja namestas.
+
 27)Kad zavrsis sa celim WDSUnattend.xml fajlom ides- gore ikonica lici na papir preko njega je stiklirano(Validate Answer File)
 Sacuvati fajl File-Save-nadjes folder E:\RemoteInstall\WdsClienUnattend i tu sacuvas kao wdsunattend.xml
+
 28)Ides na Windows Deployment Services-otvoris server i onda desni klik (na WIN-RQPB...) pa otvoriti Properties, potom karticu  Client i stiklirati enable unattended installation a u x64 architecture - browse nadjes taj fajl  wdsunattend.xml
+
 29)sad pravis new answer fail, prvo ides close answer file pa pravis new answer file
+
 30)Microsoft-Windows-Shell-Setup
 NAPOMENA. prvo ides add setting to pass 4 specialize i obrises sve sto se nalazi u ovome 
 zato sto ti to ovde ne treba i odradis podesavanja.
+
 31)Microsoft-Windows-UnattendedJoin\Identification ISTO KAO I U KORAKU 30)
 
 32)Microsoft-Windows-International-Core napomena(imas dva takva radis
